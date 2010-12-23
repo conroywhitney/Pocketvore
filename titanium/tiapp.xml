@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-<id>com.fourtyeighthourapps.pocketvore</id>
-<name>Pocketvore</name>
-<version>1.0</version>
-<publisher>48 Hour Apps</publisher>
-<url>http://www.48hourapps.com/pocketvore/</url>
-<description>Link with your Dinevore account to find nearby restaurants you want to eat at</description>
-<copyright>2010 48 Hour Apps</copyright>
-<icon>appicon.png</icon>
+    <id>com.trgr.pocketvore</id>
+    <name>Pocketvore</name>
+    <version>1.0</version>
+    <publisher>not specified</publisher>
+    <url>not specified</url>
+    <description>not specified</description>
+    <copyright>not specified</copyright>
+    <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
@@ -15,10 +15,20 @@
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
-    <property name="ti.android.debug" type="bool">true</property>
-    <!-- Appcelerator development key WILL NOT WORK IN PRODUCTION -->
-    <property name="ti.android.google.map.api.key.development">0ZnKXkWA2dIAu2EM-OV4ZD2lJY3sEWE5TSgjJNg</property>
-    <!-- Obtained from http://code.google.com/android/maps-api-signup.html using pocketvore.keystore -->
-    <property name="ti.android.google.map.api.key.production">0J4RjnmVeTGcEy6O9S2GDOnsl9SSTQqDCkOxMDw</property>
-<guid>fbd49a66-8baa-491f-8db4-501022af0b71</guid>
+<guid>598d3c05-f1de-424e-8283-d9ded8273bc8</guid>
+	<iphone>
+		<orientations device="iphone">
+			<orientation>Ti.UI.PORTRAIT</orientation>
+		</orientations>
+		<orientations device="ipad">
+			<orientation>Ti.UI.PORTRAIT</orientation>
+			<orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
+			<orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
+			<orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
+		</orientations>
+	</iphone>
+	<android xmlns:android="http://schemas.android.com/apk/res/android">
+	</android>
+	<modules>
+	</modules>
 </ti:app>

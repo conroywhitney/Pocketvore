@@ -1,6 +1,12 @@
 // First things first ..............
 var loginView = Ti.UI.createView({});
 
+var currentWindow = Ti.UI.currentWindow;
+
+var DINEVORE_URL_BASE = currentWindow.vars.baseUrl;
+
+var getRequest = currentWindow.vars.getRequest;
+
 // =====================================================================================
 // UI
 // =====================================================================================
@@ -74,6 +80,23 @@ function openWebWindow(url, title) {
 }
 
 // =====================================================================================
+// Seems like the callback only gets called if there is no error
+// So lets just return true
+// =====================================================================================
+
+function emailExists(){
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    var user_email = emailTextField.value;
+
+    if(reg.test(user_email)) {
+        Ti.App.Properties.setString('email', user_email);
+        Ti.App.fireEvent('updateGeo');
+    } else {
+        alert("You must provide your Dinevore email address to access your lists.");
+    }  
+
+}
+// =====================================================================================
 // EVENTS
 // =====================================================================================
 
@@ -86,14 +109,9 @@ aboutButton.addEventListener('click', function(e){
 });
 
 goButton.addEventListener('click', function(e){
-    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     var user_email = emailTextField.value;
-    if(reg.test(user_email)) {
-        Ti.App.Properties.setString('email', user_email);
-        Ti.App.fireEvent('updateGeo');
-    } else {
-        alert("You must provide your Dinevore email address to access your lists.");
-    }  
+    var userUrl = '/users/id_by_email?email=' + user_email;
+    getRequest(DINEVORE_URL_BASE + userUrl, emailExists);
 });
 
 // Apple-only events for text-field UX
@@ -119,4 +137,4 @@ loginView.add(emailTextField);
 loginView.add(signupButton);
 loginView.add(goButton);
 
-Ti.UI.currentWindow.add(loginView);
+currentWindow.add(loginView);

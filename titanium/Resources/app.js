@@ -3,9 +3,10 @@
 // =====================================================================================
 
 // TODO: Undo this before packaging
+
 var TESTING = false;
 
-var DINEVORE_URL_BASE = "http://dinevore:erovenid@api.dinevore.com/v1";
+var DINEVORE_URL_BASE = "http://Michael%20Dizon:9a97d89e4f7bb9b606b88c52f3f5889c@api.dinevore.com/v1";
 
 var currentWindow = null;
 
@@ -13,12 +14,13 @@ var currentWindow = null;
 // HELPER FUNCTIONS
 // =====================================================================================
 
-function createAppSingleWindow(url, title) {
+function createAppSingleWindow(url, title, vars) {
     var win = Ti.UI.createWindow({
         url: url,
         title: title,
         tabBarHidden:true,
-        navBarHidden:true
+        navBarHidden:true,
+        vars:vars
     });
 
     if (Ti.Platform.osname != 'android') {
@@ -70,7 +72,7 @@ function fireLatLon(lat, lon) {
     Ti.App.fireEvent('getNearby', {
         lat:lat,
         lon:lon
-    });   
+    });
 }
 
 // Generic request functionality
@@ -171,7 +173,7 @@ Ti.App.addEventListener('getNearby', function(event){
 // APP FLOW
 // =====================================================================================
 
-currentWindow = createAppSingleWindow('windows/login.js', 'Login');
+currentWindow = createAppSingleWindow('windows/login.js', 'Login', {'baseUrl':DINEVORE_URL_BASE, 'getRequest':getRequest});
 
 //check for network connectivity
 if (Ti.Network.online == false) {
