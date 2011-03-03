@@ -7,25 +7,66 @@ resto.restaurantView = Ti.UI.createScrollView({
   backgroundColor:'#E5E5DB',
   top:0,
   left:0,
-  contentHeight:'auto',
   showVerticalScrollIndicator:true
 });
 
+resto.restaurantTableView = Ti.UI.createTableView({
+    top:51,
+    left:0,
+    height:80,
+    separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.SINGLE_LINE
+});
+
 resto.restaurantHeader = Ti.UI.createImageView({
-  image:'details_header.png',
-  height:67,
+  image:'DETAILS.png',
+  height:51,
   width:320,
   top:0,
   right:0
 });
 
-resto.detailsBackground = Ti.UI.createView({
-  backgroundColor:'#FFFFFF',
-  borderRadius:10,
-  height:370,
-  width:295,
-  top:79,
-  left:12
+resto.restaurantView.add(resto.restaurantTableView);
+
+resto.contactHeader = Ti.UI.createView({
+    backgroundImage:'bgheader.png'
+});
+
+resto.contactLabel = Ti.UI.createLabel({
+    font:{fontFamily:'Arial',fontSize:12,fontWeight:'bold'},
+    text:'Contact',
+    color:'#333',
+    textAlign:'left',
+    top:0,
+    left:8
+});
+
+resto.contactHeader.add(resto.contactLabel);
+
+resto.mapHeader = Ti.UI.createView({
+    backgroundImage:'bgheader1.png',
+    top:0,
+    left:0,
+    height:22
+});
+
+resto.mapLabel = Ti.UI.createLabel({
+    font:{fontFamily:'Arial',fontSize:12,fontWeight:'bold'},
+    text:'Map',
+    color:'#333',
+    textAlign:'left',
+    top:0,
+    left:8    
+});
+
+resto.mapHeader.add(resto.mapLabel);
+
+resto.contactTableViewSection = Ti.UI.createTableViewSection({
+    headerView:resto.contactHeader
+});
+
+resto.mapView = Ti.UI.createView({
+    top:130,
+    backgroundColor:'#fff'
 });
 
 resto.note = Ti.Map.createAnnotation({
@@ -43,30 +84,29 @@ resto.map = Ti.Map.createView({
   animate:true,
   regionFit:true,
   userLocation:true,
-  borderRadius:10,
+  borderRadius:0,
   height:140,
-  width:275,
-  top:206,
-  left:10
+  width:304,
+  top:30,
+  left:8
 });
 
 resto.address = Ti.UI.createLabel({
-  font:{fontFamily:'Verdana',fontSize:14},
+  font:{fontFamily:'Arial',fontSize:12},
   color:'#5E4319',
-  left:10,
-  top:26,
-  height:42,
-  width:144,
+  left:8,
+  top:20,
+  height:'auto',
   textAlign:'left'
 });
 
-resto.phone = Ti.UI.createButton({
-  backgroundImage:'phone_background.png',
-  color:'#FFF',
-  width:145,
-  height:36,
-  top:70,
-  left:10
+resto.phone = Ti.UI.createLabel({
+  font:{fontFamily:'Arial',fontSize:12,fontWeight:'bold'},
+  color:'#5E4319',
+  left:8,
+  top:35,
+  height:'auto',
+  textAlign:'left'
 });
 
 
@@ -111,14 +151,13 @@ resto.score = Ti.UI.createLabel({
 
 resto.title = Ti.UI.createLabel({
   textAlign:'left',
-  font:{fontFamily:'Verdana',fontSize:17,fontWeight:'bold'},
+  font:{fontFamily:'Arial',fontSize:12,fontWeight:'bold'},
   color:'#5E4319',
   width:215,
-  height:25,
-  left:10,
+  height:'auto',
+  left:8,
   top:5
 });
-
 
 // =====================================================================================
 // APP FLOW
@@ -126,18 +165,14 @@ resto.title = Ti.UI.createLabel({
 
 
 
-resto.scoreBackground.add(resto.score);
-resto.detailsBackground.add(resto.scoreBackground);
-resto.detailsBackground.add(resto.address);
-
-resto.detailsBackground.add(resto.map);
-resto.detailsBackground.add(resto.phone);
-resto.detailsBackground.add(resto.listedButton);
-resto.detailsBackground.add(resto.eatenButton);
-resto.detailsBackground.add(resto.title);
-
-resto.restaurantView.add(resto.restaurantHeader);
-resto.restaurantView.add(resto.detailsBackground);
-
+// resto.scoreBackground.add(resto.score);
+// resto.detailsBackground.add(resto.scoreBackground);
+// resto.detailsBackground.add(resto.address);
+// 
+// resto.detailsBackground.add(resto.map);
+// resto.detailsBackground.add(resto.phone);
+// resto.detailsBackground.add(resto.listedButton);
+// resto.detailsBackground.add(resto.eatenButton);
+// resto.detailsBackground.add(resto.title);
 
 resto.win.add(resto.restaurantView);

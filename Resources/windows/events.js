@@ -12,7 +12,6 @@ Titanium.App.addEventListener('hide_indicator', function(e)
 	hideIndicator();
 });
 
-
 login.signupButton.addEventListener('click', function(e){
     openWebWindow('http://dinevore.com/signup/mobile', 'Sign Up Up For Dinevore');
 });
@@ -27,11 +26,6 @@ login.goButton.addEventListener('click', function(e){
     getRequest(DINEVORE_URL_BASE + userUrl, emailExists);
 });
 
-
-nearBy.nearbyHeader.addEventListener('click', function(e){
-  Ti.App.fireEvent('updateGeo');
-});
-
 // listen for new nearby restaurants
 Ti.App.addEventListener('updateNearby', function(event){
 // update nearby display
@@ -40,14 +34,14 @@ Ti.App.addEventListener('updateNearby', function(event){
   restaurants.sort(sortRestaurantsByDistance);
 
   for (var i=0; i<restaurants.length; i++) {
-    var backgroundImageUrl = 'table_view_cell_background.png';
+    // var backgroundImageUrl = 'table_view_cell_background.png';
 
     if (restaurants[i].rounded_dinescore > 85) {
-      backgroundImageUrl = 'high_score.png';
+     // backgroundImageUrl = 'high_score.png';
     } else if (restaurants[i].rounded_dinescore > 0) {
-      backgroundImageUrl = 'score.png';      
+    //  backgroundImageUrl = 'score.png';      
     } else {
-      backgroundImageUrl = 'no_score.png';
+    //  backgroundImageUrl = 'no_score.png';
     }
     
     // This is PURELY COSMETIC
@@ -62,69 +56,71 @@ Ti.App.addEventListener('updateNearby', function(event){
     }
 
     var row = Ti.UI.createTableViewRow({
-      backgroundImage:backgroundImageUrl,
-      height:74
+      //backgroundImage:backgroundImageUrl,
+      height:60,      
+      hasChild:true
     });
 
     var name = Ti.UI.createLabel({
       text:restaurants[i].name,
-      font:{fontFamily:'Verdana',fontSize:17,fontWeight:'bold'},
+      font:{fontFamily:'Arial',fontSize:14,fontWeight:'bold'},
       color:'#5E4319',
       textAlign:'left',
-      top:15,
-      left:10,
-      height:22,
-      width:230
+      top:4,
+      left:8,
+      height:'auto'
     });
 
     var price = Ti.UI.createLabel({
-      text:restaurants[i].average_price_range,
-      font:{fontFamily:'Verdana',fontSize:17},
-      color:'#B8552A',
-      width:'auto',
-      textAlign:'left',
-      left:150,
-      bottom:10,
-      height:22
-    });
-
-    var distance = Ti.UI.createLabel({
-      text:Math.floor(restaurants[i].distance_to_center) + "m",
-      font:{fontFamily:'Verdana',fontSize:14,fontWeight:'bold'},
+      text:'Average Entree ' + restaurants[i].average_price_range,
+      font:{fontFamil:'Arial',fontSize:12, fontStyle:'bold'},
       color:'#5E4319',
       width:'auto',
-      textAlign:'right',
-      top:20,
-      right:5,
-      height:16
+      textAlign:'left',
+      left:8,
+      top:34,
+      height:'auto'
     });
     
     var cuisine = Ti.UI.createLabel({
       text:restaurants[i].supported_cuisines,
-      font:{fontFamily:'Verdana',fontSize:14,fontStyle:'italic'},
+      font:{fontFamily:'Arial',fontSize:12,fontStyle:'bold'},
       color:'#5E4319',
-      bottom:10,
-      left:10,
-      height:20,
-      width:130
+      top:20,
+      left:8,
+      height:'auto'
     });
     
-    var score = Ti.UI.createLabel({
-      text:formatted_score,
-      font:{fontFamily:'Georgia',fontSize:24,fontWeight:'bold'},
-      color:'#FFFFFF',
-      right:5,
-      height:30,
-      bottom:10,
-      width:50,
-      textAlign:'right'
-    });
+    var distance;
+    if (formatted_score != 0){
+        distance = Ti.UI.createLabel({
+          text:'Distance: ' + Math.floor(restaurants[i].distance_to_center) + "m" + ' Dinescore: ' + formatted_score,
+          font:{fontFamily:'Arial',fontSize:11,fontWeight:'bold'},
+          color:'#5E4319',
+          width:200,
+          textAlign:'left',
+          top:52,
+          left:8,
+          height:'auto'
+        });
+    }
+    else {
+        distance = Ti.UI.createLabel({
+          text:'Distance: ' + Math.floor(restaurants[i].distance_to_center) + "m",
+          font:{fontFamily:'Arial',fontSize:11,fontWeight:'bold'},
+          color:'#5E4319',
+          width:200,
+          textAlign:'left',
+          top:52,
+          left:8,
+          height:'auto'
+        });        
+    }
 
-    row.add(name);
-    row.add(price);
-    row.add(distance);
-    row.add(cuisine);
-    row.add(score);
+   row.add(name);
+   row.add(price);
+   row.add(distance);
+   row.add(cuisine);
     row.restaurant = restaurants[i];
     row.className = 'nearby_row';
 
@@ -136,8 +132,42 @@ Ti.App.addEventListener('updateNearby', function(event){
 
 nearBy.nearbyListTableView.addEventListener('click', function(e) {
 
+    resto.restaurantView.add(resto.restaurantHeader);
+
+    if (resto.contactTableViewSection){
+           for (var a=0, b=resto.contactTableViewSection.rowCount; a < b; a++){
+               resto.contactTableViewSection.remove(resto.contactTableViewSection.rowAtIndex());
+           }
+    }    
+    
+    if (resto.mapTableViewSection){
+        for (var i=0, j=resto.mapTableViewSection.rowCount; i < j; i++){
+            resto.mapTableViewSection.remove(resto.mapTableViewSection.rowAtIndex());
+        }        
+    }
+            
+    var contactRow;
+        
+    contactRow = Ti.UI.createTableViewRow({
+        touchEnabled:false, 
+        selectedBackgroundColor:'#FFF', 
+        selectedColor:'#000',
+        height:60
+    });
+    
+    var mapRow;
+    
+    mapRow = Ti.UI.createTableViewRow({
+        touchEnabled:false, 
+        selectedBackgroundColor:'#FFF', 
+        selectedColor:'#000',
+        height:160
+    });
+    
     var restaurant = e.rowData.restaurant;
     var name = e.rowData.restaurant.name;
+
+    resto.title.text = name;
         
     resto.note.latitude = restaurant.latitude;
     resto.note.longitude = restaurant.longitude;
@@ -148,19 +178,32 @@ nearBy.nearbyListTableView.addEventListener('click', function(e) {
             latitudeDelta:0.005, longitudeDelta:0.005};
     
     resto.map.annotations = [resto.note];
-    
-    
+        
     resto.address.text = restaurant.street;
     resto.score.text = restaurant.rounded_dinescore;
     resto.title.text = name;
-    
+
+    resto.phone.text = restaurant.phone_number;
+
     if (restaurant.phone_number == '') {
-      resto.phone.title = 'unlisted';
+      resto.phone.text = 'Phone Unlisted';
     }
-    resto.phone.title = restaurant.phone_number;
 
     resto.win.navBarHidden = false;
+    resto.win.barImage = 'TitleBar.png';    
 
+    contactRow.add(resto.title);
+    contactRow.add(resto.address);
+    contactRow.add(resto.phone);
+    resto.contactTableViewSection.add(contactRow);
+    
+    resto.mapView.add(resto.mapHeader);
+    resto.mapView.add(resto.map);
+
+    resto.restaurantView.add(resto.mapView);
+    
+    resto.restaurantTableView.setData([resto.contactTableViewSection]);
+    
     nearBy.navigationGroup.open(resto.win);
 });
 
@@ -185,11 +228,18 @@ Ti.App.addEventListener('updateGeo', function() {
 Ti.App.addEventListener('getNearby', function(event){
     var nearbyUrl = "/users/" + Ti.App.Properties.getString('email') + "/default_lists.json?filter_by=wanted&radius=5000";
     getRequest(DINEVORE_URL_BASE + nearbyUrl + '&lat=' + event.lat + '&lon=' + event.lon, receiveNearby);
+    
+    Ti.API.info(DINEVORE_URL_BASE + nearbyUrl + '&lat=' + event.lat + '&lon=' + event.lon);
+});
+
+
+resto.win.addEventListener('open', function(e){
+//    resto.win.add(resto.restaurantView);    
 });
 
 
 resto.phone.addEventListener('click', function(e){
-  number = e.source.title.replace(/\-|\(|\) /gi,'');
+  number = e.source.text.replace(/\-|\(|\) /gi,'');
   Ti.Platform.openURL('tel:'+number);
 });
 

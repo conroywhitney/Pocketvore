@@ -4,7 +4,7 @@
 
 // TODO: Undo this before packaging
 
-var TESTING = false;
+var TESTING = true;
 
 var DINEVORE_URL_BASE = "http://Michael%20Dizon:9a97d89e4f7bb9b606b88c52f3f5889c@api.dinevore.com/v1";
 
@@ -239,7 +239,6 @@ function receiveNearby(nearbyRestaurants) {
 // APP FLOW
 // =====================================================================================
 
-//currentWindow = createAppSingleWindow('windows/login.js', 'Login', {'baseUrl':DINEVORE_URL_BASE, 'getRequest':getRequest});
 login.win.open();
 
 //check for network connectivity

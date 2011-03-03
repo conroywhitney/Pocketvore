@@ -1,14 +1,10 @@
 // First things first ..............
 login = {};
 
-login.loginView = Ti.UI.createView({});
+login.loginView = Ti.UI.createScrollView({});
 
 login.win = Ti.UI.createWindow({});
 login.win.add(login.loginView);
-
-//var DINEVORE_URL_BASE = currentWindow.vars.baseUrl;
-
-//var getRequest = currentWindow.vars.getRequest;
 
 // =====================================================================================
 // UI
@@ -86,8 +82,6 @@ function openWebWindow(url, title) {
 // So lets just return true
 // =====================================================================================
 
-
-
 // Apple-only events for text-field UX
 if (Ti.Platform.osname != 'android') {
     login.emailTextField.addEventListener('focus', function(e){
@@ -106,8 +100,6 @@ if (Ti.Platform.osname != 'android') {
 // =====================================================================================
 
 login.loginView.add(login.background);
-login.loginView.add(login.aboutButton);
 login.loginView.add(login.emailTextField);
 login.loginView.add(login.signupButton);
 login.loginView.add(login.goButton);
-
