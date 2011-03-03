@@ -64,7 +64,7 @@ resto.mapHeader.add(resto.mapLabel);
 
 resto.directionsLabel = Ti.UI.createLabel({
     font:{fontFamily:'Arial',fontSize:12,fontWeight:'bold'},
-    text:'Directions',
+    text:'Get Directions',
     color:'#333',
     textAlign:'left',
     top:85,
@@ -79,8 +79,6 @@ resto.mapView = Ti.UI.createView({
     top:130,
     backgroundColor:'#fff'
 });
-
-
 
 resto.note = Ti.Map.createAnnotation({
   animate:true
