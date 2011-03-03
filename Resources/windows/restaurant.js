@@ -3,6 +3,8 @@ resto = {};
 
 resto.win = Ti.UI.createWindow({});
 
+var restaurant = resto.win.restaurant;
+
 resto.restaurantView = Ti.UI.createScrollView({
   backgroundColor:'#E5E5DB',
   top:0,
@@ -60,6 +62,15 @@ resto.mapLabel = Ti.UI.createLabel({
 
 resto.mapHeader.add(resto.mapLabel);
 
+resto.directionsLabel = Ti.UI.createLabel({
+    font:{fontFamily:'Arial',fontSize:12,fontWeight:'bold'},
+    text:'Directions',
+    color:'#333',
+    textAlign:'left',
+    top:85,
+    left:8    
+});
+
 resto.contactTableViewSection = Ti.UI.createTableViewSection({
     headerView:resto.contactHeader
 });
@@ -68,6 +79,8 @@ resto.mapView = Ti.UI.createView({
     top:130,
     backgroundColor:'#fff'
 });
+
+
 
 resto.note = Ti.Map.createAnnotation({
   animate:true
@@ -114,40 +127,6 @@ resto.phone = Ti.UI.createLabel({
 // This is a h4x where we set the button's title instead
 // But we need to move the text over to align it with the "Dinos" text...
 // ...so we use a bunch of spaces...  =/
-resto.listedButton = Ti.UI.createButton({
-  backgroundImage:'listed.png',
-  title:'          "Want to Try"',      
-  color:'#377c8e',
-  height:40,
-  width:276,
-  top:113,
-  left:10
-});
-
-resto.eatenButton = Ti.UI.createButton({
-  backgroundImage:'dinos.png',
-  title:'None',
-  color:'#787a46',
-  height:40,
-  width:276,
-  top:160,
-  left:10
-});
-
-resto.scoreBackground = Ti.UI.createImageView({
-  image:'details_score_bg.png',
-  width:74,
-  height:70,
-  top:0,
-  right:0
-});
-
-resto.score = Ti.UI.createLabel({
-  color:'#FFFFFF',
-  font:{fontFamily:'Georgia',fontSize:24,fontWeight:'bold'},
-  textAlign:'right',
-  right:15
-});
 
 resto.title = Ti.UI.createLabel({
   textAlign:'left',
@@ -159,20 +138,19 @@ resto.title = Ti.UI.createLabel({
   top:5
 });
 
+
+resto.directionsLabel.addEventListener('click', function(e){
+    slat = Ti.App.Properties.getDouble('lat');
+    slon = Ti.App.Properties.getDouble('lon');
+    dlat = resto.win.restaurant.latitude;
+    dlon = resto.win.restaurant.longitude;
+    var url = "http://maps.google.com/maps?f=d&source=s_d&saddr="+slat+","+slon+"&daddr="+dlat+","+dlon;
+    Ti.Platform.openURL(url);    
+});
+
+
 // =====================================================================================
 // APP FLOW
 // =====================================================================================
-
-
-
-// resto.scoreBackground.add(resto.score);
-// resto.detailsBackground.add(resto.scoreBackground);
-// resto.detailsBackground.add(resto.address);
-// 
-// resto.detailsBackground.add(resto.map);
-// resto.detailsBackground.add(resto.phone);
-// resto.detailsBackground.add(resto.listedButton);
-// resto.detailsBackground.add(resto.eatenButton);
-// resto.detailsBackground.add(resto.title);
 
 resto.win.add(resto.restaurantView);

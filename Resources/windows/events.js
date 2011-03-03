@@ -180,13 +180,12 @@ nearBy.nearbyListTableView.addEventListener('click', function(e) {
     resto.map.annotations = [resto.note];
         
     resto.address.text = restaurant.street;
-    resto.score.text = restaurant.rounded_dinescore;
     resto.title.text = name;
 
     resto.phone.text = restaurant.phone_number;
 
     if (restaurant.phone_number == '') {
-      resto.phone.text = 'Phone Unlisted';
+      resto.phone.text = '';
     }
 
     resto.win.navBarHidden = false;
@@ -200,12 +199,17 @@ nearBy.nearbyListTableView.addEventListener('click', function(e) {
     resto.mapView.add(resto.mapHeader);
     resto.mapView.add(resto.map);
 
+    resto.mapView.add(resto.directionsLabel);
+
     resto.restaurantView.add(resto.mapView);
+    resto.win.restaurant = restaurant;
     
     resto.restaurantTableView.setData([resto.contactTableViewSection]);
     
     nearBy.navigationGroup.open(resto.win);
 });
+
+
 
 Ti.App.addEventListener('updateGeo', function() {
     if (true == TESTING) {
@@ -232,10 +236,6 @@ Ti.App.addEventListener('getNearby', function(event){
     Ti.API.info(DINEVORE_URL_BASE + nearbyUrl + '&lat=' + event.lat + '&lon=' + event.lon);
 });
 
-
-resto.win.addEventListener('open', function(e){
-//    resto.win.add(resto.restaurantView);    
-});
 
 
 resto.phone.addEventListener('click', function(e){
