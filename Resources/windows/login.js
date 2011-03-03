@@ -4,7 +4,6 @@ login = {};
 login.loginView = Ti.UI.createScrollView({});
 
 login.win = Ti.UI.createWindow({});
-login.win.add(login.loginView);
 
 // =====================================================================================
 // UI
@@ -52,6 +51,7 @@ login.emailTextField = Ti.UI.createTextField({
   bottom:104
 });
 
+
 // =====================================================================================
 // HELPER FUNCTIONS
 // =====================================================================================
@@ -66,7 +66,7 @@ function openWebWindow(url, title) {
     });
   
     var webViewWindow = Ti.UI.createWindow({
-        url:'web.js',
+        url:'windows/web.js',
         title:title,
         leftNavButton:closeWebViewButton,
         dest_url:url
@@ -98,8 +98,10 @@ if (Ti.Platform.osname != 'android') {
 // =====================================================================================
 // APP FLOW
 // =====================================================================================
-
 login.loginView.add(login.background);
+login.loginView.add(login.aboutButton);
 login.loginView.add(login.emailTextField);
 login.loginView.add(login.signupButton);
 login.loginView.add(login.goButton);
+
+login.win.add(login.loginView);
